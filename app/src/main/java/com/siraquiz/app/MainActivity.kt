@@ -268,6 +268,7 @@ fun CategoriesScreen(onSelect: (String) -> Unit, onBack: () -> Unit) {
 
 @Composable
 fun QuizScreen(
+   
     list: List<QuizQuestion>, index: Int, score: Int, selected: Int, seconds: Int,
     onSelect: (Int) -> Unit, onTick: () -> Unit, onNext: () -> Unit, onHome: () -> Unit
 ) {
@@ -322,7 +323,7 @@ fun QuizScreen(
 }
 
 @Composable
-fun ResultScreen(score: Int, total: Int, restart: () -> Unit) {
+fun ResultScreen( score: Int, total: Int, restart: () -> Unit) {
     val max = total * 10
     val correct = score / 10
     Column(Modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {

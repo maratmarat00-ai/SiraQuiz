@@ -39,6 +39,22 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Fix JVM target compatibility
+        run: |
+          cat >> extracted/SiraQuiz/app/build.gradle <<'EOF'
+
+          android {
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+
+              kotlinOptions {
+                  jvmTarget = "17"
+              }
+          }
+          EOF
+
       - name: Build AAB
         run: |
           gradle :app:bundleRelease

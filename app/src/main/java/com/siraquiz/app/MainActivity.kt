@@ -306,7 +306,8 @@ fun QuizScreen(
             )
         }
         Spacer(Modifier.height(14.dp))
-        q.options.forEachIndexed { i, option ->
+        for (i in q.options.indices) {
+            val option = q.options[i]
             val active = selected == i
             OutlinedButton(
                 onClick = { if (selected == -1) onSelect(i) },
@@ -380,3 +381,5 @@ fun ResultScreen(score: Int, total: Int, restart: () -> Unit) {
             Spacer(Modifier.width(8.dp))
             Text("ВЫБРАТЬ СНОВА")
         }
+    }
+}

@@ -38,29 +38,9 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Create Gradle JVM configuration
-        run: |
-          cat > /tmp/jvm-fix.gradle <<'EOF'
-          allprojects {
-              tasks.withType(JavaCompile).configureEach {
-                  sourceCompatibility = "17"
-                  targetCompatibility = "17"
-              }
-
-              tasks.configureEach {
-                  if (name.contains("Kotlin") && name.contains("Compile")) {
-                      try {
-                          kotlinOptions.jvmTarget = "17"
-                      } catch (Exception ignored) {
-                      }
-                  }
-              }
-          }
-          EOF
-
       - name: Build AAB
         run: |
-          gradle --init-script /tmp/jvm-fix.gradle :app:bundleRelease
+          gradle -Pkotlin.jvm.target.validation.mode=ignore :app:bundleRelease
         working-directory: extracted/SiraQuiz
 
       - name: Upload AAB

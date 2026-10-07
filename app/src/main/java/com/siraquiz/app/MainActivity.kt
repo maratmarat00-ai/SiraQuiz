@@ -237,8 +237,9 @@ fun HomeScreen(start: () -> Unit) {
             )
         }
     }
+}
 
-@Composable
+    @Composable
 fun CategoriesScreen(onSelect: (String) -> Unit, onBack: () -> Unit) {
     val cats = listOf(
         "Все категории" to "100 вопросов",

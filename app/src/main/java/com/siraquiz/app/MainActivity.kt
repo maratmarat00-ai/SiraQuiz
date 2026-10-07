@@ -31,14 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
-data class QuizQuestion(
-    val category: String,
-    val question: String,
-    val options: List<String>,
-    val correct: Int,
-    val explanation: String
-)
-
 private val questions = listOf(
     QuizQuestion("1. Детство и юность", "К какому племени принадлежал Пророк Мухаммад ﷺ?", listOf("Курайш", "Аус", "Хазрадж", "Сакиф"), 0, "Пророк ﷺ происходил из племени Курайш."),
     QuizQuestion("1. Детство и юность", "Как звали отца Пророка ﷺ?", listOf("Абд аль-Мутталиб", "Абдуллах", "Абу Талиб", "Аббас"), 1, "Его отца звали Абдуллах ибн Абд аль-Мутталиб."),

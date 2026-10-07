@@ -163,35 +163,107 @@ fun SiraQuizApp() {
     var seconds by remember { mutableIntStateOf(30) }
 
     fun startQuiz(list: List<QuizQuestion>) {
-        activeQuestions = list
-        index = 0; score = 0; selected = -1; seconds = 30
+        if (list.isEmpty()) return
+
+        activeQuestions = list.shuffled()
+        index = 0
+        score = 0
+        selected = -1
+        seconds = 30
         screen = "quiz"
     }
 
-    MaterialTheme(colorScheme = darkColorScheme(
-        primary = gold, background = bg, surface = panel,
-        onPrimary = Color.Black, onBackground = cream, onSurface = cream
-    )) {
-        Surface(Modifier.fillMaxSize(), color = bg) {
-            AnimatedContent(targetState = screen, label = "screen") { s ->
+    MaterialTheme(
+        colorScheme = darkColorScheme(
+            primary = gold,
+            background = bg,
+            surface = panel,
+            onPrimary = Color.Black,
+            onBackground = cream,
+            onSurface = cream
+        )
+    ) {
+        Surface(
+            Modifier.fillMaxSize(),
+            color = bg
+        ) {
+            AnimatedContent(
+                targetState = screen,
+                label = "screen"
+            ) { s ->
+
                 when (s) {
-                    "home" -> HomeScreen { screen = "categories" }
+
+                    "home" -> HomeScreen {
+                        screen = "categories"
+                    }
+
                     "categories" -> CategoriesScreen(
-                        onSelect = { cat -> startQuiz(if (cat == "Все категории") questions else questions.filter { it.category == cat }) },
-                        onBack = { screen = "home" }
+                        
+onSelect = { level ->
+
+    val selectedQuestions = when (level) {
+        "ЛЁГКИЕ ВОПРОСЫ" ->
+            questions.take(34)
+
+        "СРЕДНИЕ ВОПРОСЫ" ->
+            questions.drop(34).take(33)
+
+        "СЛОЖНЫЕ ВОПРОСЫ" ->
+            questions.drop(67)
+
+        else -> questions
+    }
+
+    startQuiz(selectedQuestions)
+},
+                                
+                        onBack = {
+                            screen = "home"
+                        }
                     )
+
                     "quiz" -> QuizScreen(
-                        activeQuestions, index, score, selected, seconds,
-                        onSelect = { selected = it },
-                        onTick = { if (seconds > 0) seconds-- },
-                        onNext = {
-                            if (selected == activeQuestions[index].correct) score += 10
-                            if (index == activeQuestions.lastIndex) screen = "result"
-                            else { index++; selected = -1; seconds = 30 }
+                        activeQuestions,
+                        index,
+                        score,
+                        selected,
+                        seconds,
+
+                        onSelect = {
+                            selected = it
                         },
-                        onHome = { screen = "home" }
+
+                        onTick = {
+                            if (seconds > 0) seconds--
+                        },
+
+                        onNext = {
+
+                            if (selected == activeQuestions[index].correct) {
+                                score += 10
+                            }
+
+                            if (index == activeQuestions.lastIndex) {
+                                screen = "result"
+                            } else {
+                                index++
+                                selected = -1
+                                seconds = 30
+                            }
+                        },
+
+                        onHome = {
+                            screen = "home"
+                        }
                     )
-                    else -> ResultScreen(score, activeQuestions.size) { screen = "categories" }
+
+                    else -> ResultScreen(
+                        score,
+                        activeQuestions.size
+                    ) {
+                        screen = "categories"
+                    }
                 }
             }
         }
@@ -239,36 +311,182 @@ fun HomeScreen(start: () -> Unit) {
     }
 }
 
-    @Composable
-fun CategoriesScreen(onSelect: (String) -> Unit, onBack: () -> Unit) {
+@Composable
+fun CategoriesScreen(
+    onSelect: (String) -> Unit,
+    onBack: () -> Unit
+) {
     val cats = listOf(
-        "Все категории" to "100 вопросов",
-        "1. Детство и юность" to "12 вопросов",
-        "2. Начало пророчества" to "12 вопросов",
-        "3. Мекканский период" to "12 вопросов",
-        "4. Хиджра и Медина" to "12 вопросов",
-        "5. Бадр, Ухуд и Хандак" to "12 вопросов",
-        "6. Худайбия, Хайбар и завоевание Мекки" to "12 вопросов",
-        "7. Поздний период и Табук" to "12 вопросов",
-        "8. Семья, нрав и последние годы" to "16 вопросов"
+        Triple(
+            "ЛЁГКИЕ ВОПРОСЫ",
+            "Начальный уровень",
+            Color(0xFF2E9D5B)
+        ),
+        Triple(
+            "СРЕДНИЕ ВОПРОСЫ",
+            "Средний уровень",
+            Color(0xFFD6A82E)
+        ),
+        Triple(
+            "СЛОЖНЫЕ ВОПРОСЫ",
+            "Продвинутый уровень",
+            Color(0xFFD64B45)
+        )
     )
-    Column(Modifier.fillMaxSize().padding(18.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Назад", tint = gold) }
-            Text("Выбор категории", color = cream, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = 18.dp,
+                vertical = 12.dp
+            )
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            IconButton(
+                onClick = onBack
+            ) {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    contentDescription = "Назад",
+                    tint = gold
+                )
+            }
+
+            Column(
+                modifier = Modifier.padding(start = 4.dp)
+            ) {
+
+                Text(
+                    "ВЫБЕРИТЕ УРОВЕНЬ",
+                    color = cream,
+                    fontSize = 23.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(
+                    "Проверьте свои знания сиры",
+                    color = gold,
+                    fontSize = 13.sp
+                )
+            }
         }
-        Text("Выберите период жизни Пророка ﷺ", color = gold, modifier = Modifier.padding(8.dp))
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(9.dp), modifier = Modifier.fillMaxSize()) {
-            items(cats) { (name, count) ->
-                Button(
-                    onClick = { onSelect(name) },
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 62.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = panel),
-                    shape = RoundedCornerShape(16.dp)
+
+        Spacer(
+            Modifier.height(22.dp)
+        )
+
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+            items(cats) { (name, subtitle, accent) ->
+
+                Card(
+                    onClick = {
+                        onSelect(name)
+                    },
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(112.dp),
+
+                    shape = RoundedCornerShape(24.dp),
+
+                    colors = CardDefaults.cardColors(
+                        containerColor = panel
+                    ),
+
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        accent.copy(alpha = 0.8f)
+                    )
                 ) {
-                    Column(Modifier.fillMaxWidth()) {
-                        Text(name, color = cream, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                        Text(count, color = gold, fontSize = 13.sp)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 18.dp),
+
+                        verticalAlignment =
+                            Alignment.CenterVertically
+                    ) {
+
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clip(
+                                    RoundedCornerShape(20.dp)
+                                )
+                                .background(
+                                    accent.copy(alpha = 0.16f)
+                                ),
+
+                            contentAlignment =
+                                Alignment.Center
+                        ) {
+
+                            Icon(
+                                imageVector = when (name) {
+
+                                    "ЛЁГКИЕ ВОПРОСЫ" ->
+                                        Icons.Default.CheckCircle
+
+                                    "СРЕДНИЕ ВОПРОСЫ" ->
+                                        Icons.Default.EmojiEvents
+
+                                    else ->
+                                        Icons.Default.Whatshot
+                                },
+
+                                contentDescription = null,
+
+                                tint = accent,
+
+                                modifier =
+                                    Modifier.size(34.dp)
+                            )
+                        }
+
+                        Spacer(
+                            Modifier.width(16.dp)
+                        )
+
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+
+                            Text(
+                                name,
+                                color = cream,
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Spacer(
+                                Modifier.height(5.dp)
+                            )
+
+                            Text(
+                                subtitle,
+                                color = accent,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+
+                        Icon(
+                            Icons.Default.ChevronRight,
+                            contentDescription = "Выбрать",
+                            tint = accent,
+                            modifier = Modifier.size(30.dp)
+                        )
                     }
                 }
             }

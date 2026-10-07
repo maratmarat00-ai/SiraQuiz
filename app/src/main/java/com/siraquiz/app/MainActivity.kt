@@ -275,14 +275,7 @@ onSelect = { level ->
 fun HomeScreen(start: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
 
-        Image(
-            painter = painterResource(
-                id = com.siraquiz.app.R.drawable.home_background
-            ),
-            contentDescription = "Исламский фон приложения",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+        
 
         Button(
             onClick = start,
@@ -442,7 +435,7 @@ fun CategoriesScreen(
                             Image(
                                 painter = painterResource(level.image),
                                 contentDescription = level.title,
-                                contentScale = ContentScale.Crop,
+                                contentScale = ContentScale.Fit,
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clip(

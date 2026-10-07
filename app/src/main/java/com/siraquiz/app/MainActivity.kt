@@ -274,9 +274,12 @@ onSelect = { level ->
 @Composable
 fun HomeScreen(start: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
-
-        
-
+   Image(
+    painter = painterResource(id = R.drawable.home_background),
+    contentDescription = "Фон приложения",
+    contentScale = ContentScale.Crop,
+    modifier = Modifier.fillMaxSize()
+)
         Button(
             onClick = start,
             modifier = Modifier

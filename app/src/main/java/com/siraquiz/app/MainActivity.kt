@@ -237,8 +237,6 @@ fun HomeScreen(start: () -> Unit) {
             )
         }
     }
-}
-}
 
 @Composable
 fun CategoriesScreen(onSelect: (String) -> Unit, onBack: () -> Unit) {

@@ -200,33 +200,44 @@ fun SiraQuizApp() {
 
 @Composable
 fun HomeScreen(start: () -> Unit) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize()) {
+
         Image(
-            painter = painterResource(id = com.siraquiz.app.R.drawable.home_background),
+            painter = painterResource(
+                id = com.siraquiz.app.R.drawable.home_background
+            ),
             contentDescription = "Исламский фон приложения",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.34f)))
-        Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("السيرة النبوية", color = gold, fontSize = 42.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-            Spacer(Modifier.height(12.dp))
-            Text("ЖИЗНЕОПИСАНИЕ ПРОРОКА ﷺ", color = cream, fontSize = 22.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-            Text("МИР ЕМУ И БЛАГОСЛОВЕНИЕ АЛЛАХА", color = gold, fontSize = 13.sp, textAlign = TextAlign.Center)
-            Spacer(Modifier.height(36.dp))
-            Button(
-                onClick = start,
-                modifier = Modifier.fillMaxWidth().height(58.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = green),
-                shape = RoundedCornerShape(18.dp)
-            ) {
-                Icon(Icons.Default.PlayArrow, null); Spacer(Modifier.width(8.dp))
-                Text("НАЧАТЬ ВИКТОРИНУ", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            }
-            Spacer(Modifier.height(16.dp))
-            Text("100 сложных вопросов • 30 секунд на вопрос", color = cream.copy(alpha = .75f), textAlign = TextAlign.Center)
+
+        Button(
+            onClick = start,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(0.82f)
+                .padding(bottom = 90.dp)
+                .height(64.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = green
+            ),
+            shape = RoundedCornerShape(28.dp)
+        ) {
+            Icon(
+                Icons.Default.PlayArrow,
+                contentDescription = null
+            )
+
+            Spacer(Modifier.width(8.dp))
+
+            Text(
+                "НАЧАТЬ ВИКТОРИНУ",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
+}
 }
 
 @Composable

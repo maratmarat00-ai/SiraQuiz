@@ -428,72 +428,200 @@ fun CategoriesScreen(
                                     accent.copy(alpha = 0.16f)
                                 ),
 
-                            contentAlignment =
-                                Alignment.Center
-                        ) {
+@Composable
+fun CategoriesScreen(
+    onSelect: (String) -> Unit,
+    onBack: () -> Unit
+) {
+    data class Level(
+        val title: String,
+        val subtitle: String,
+        val accent: Color,
+        val icon: ImageVector
+    )
 
-                            Icon(
-                                imageVector = when (name) {
+    val levels = listOf(
+        Level(
+            title = "ЛЁГКИЕ ВОПРОСЫ",
+            subtitle = "Начальный уровень",
+            accent = Color(0xFF35C978),
+            icon = Icons.Default.CheckCircle
+        ),
+        Level(
+            title = "СРЕДНИЕ ВОПРОСЫ",
+            subtitle = "Средний уровень",
+            accent = Color(0xFFFFC83D),
+            icon = Icons.Default.EmojiEvents
+        ),
+        Level(
+            title = "СЛОЖНЫЕ ВОПРОСЫ",
+            subtitle = "Продвинутый уровень",
+            accent = Color(0xFFFF5555),
+            icon = Icons.Default.Whatshot
+        )
+    )
 
-                                    "ЛЁГКИЕ ВОПРОСЫ" ->
-                                        Icons.Default.CheckCircle
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF031E18),
+                        Color(0xFF062B23),
+                        Color(0xFF021812)
+                    )
+                )
+            )
+            .padding(horizontal = 18.dp, vertical = 14.dp)
+    ) {
 
-                                    "СРЕДНИЕ ВОПРОСЫ" ->
-                                        Icons.Default.EmojiEvents
+        // Верхняя панель
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-                                    else ->
-                                        Icons.Default.Whatshot
-                                },
+            IconButton(
+                onClick = onBack
+            ) {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    contentDescription = "Назад",
+                    tint = gold,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
 
-                                contentDescription = null,
+            Spacer(
+                modifier = Modifier.width(6.dp)
+            )
 
-                                tint = accent,
+            Column {
+                Text(
+                    text = "ВЫБЕРИТЕ УРОВЕНЬ",
+                    color = cream,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-                                modifier =
-                                    Modifier.size(34.dp)
-                            )
-                        }
+                Spacer(
+                    modifier = Modifier.height(3.dp)
+                )
 
-                        Spacer(
-                            Modifier.width(16.dp)
-                        )
+                Text(
+                    text = "Проверьте свои знания сиры",
+                    color = gold,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
 
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
+        Spacer(
+            modifier = Modifier.height(28.dp)
+        )
 
-                            Text(
-                                name,
-                                color = cream,
-                                fontSize = 17.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+        // Три красивые категории
+        levels.forEach { level ->
 
-                            Spacer(
-                                Modifier.height(5.dp)
-                            )
+            Card(
+                onClick = {
+                    onSelect(level.title)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(155.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF0A3028)
+                ),
+                border = BorderStroke(
+                    width = 1.5.dp,
+                    color = level.accent.copy(alpha = 0.85f)
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 8.dp
+                )
+            ) {
 
-                            Text(
-                                subtitle,
-                                color = accent,
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    // Большая цветная иконка
+                    Box(
+                        modifier = Modifier
+                            .size(78.dp)
+                            .clip(RoundedCornerShape(24.dp))
+                            .background(
+                                Brush.linearGradient(
+                                    listOf(
+                                        level.accent.copy(alpha = 0.28f),
+                                        level.accent.copy(alpha = 0.10f)
+                                    )
+                                )
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
 
                         Icon(
-                            Icons.Default.ChevronRight,
-                            contentDescription = "Выбрать",
-                            tint = accent,
-                            modifier = Modifier.size(30.dp)
+                            imageVector = level.icon,
+                            contentDescription = null,
+                            tint = level.accent,
+                            modifier = Modifier.size(46.dp)
                         )
                     }
+
+                    Spacer(
+                        modifier = Modifier.width(18.dp)
+                    )
+
+                    // Текст
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+
+                        Text(
+                            text = level.title,
+                            color = cream,
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(
+                            modifier = Modifier.height(7.dp)
+                        )
+
+                        Text(
+                            text = level.subtitle,
+                            color = level.accent,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+
+                    // Стрелка
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "Выбрать",
+                        tint = level.accent,
+                        modifier = Modifier.size(36.dp)
+                    )
                 }
             }
+
+            Spacer(
+                modifier = Modifier.height(18.dp)
+            )
         }
     }
 }
-
 @Composable
 fun QuizScreen(
     list: List<QuizQuestion>, index: Int, score: Int, selected: Int, seconds: Int,

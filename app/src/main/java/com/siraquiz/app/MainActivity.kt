@@ -311,156 +311,12 @@ fun HomeScreen(start: () -> Unit) {
     }
 }
 
-@Composable
+
+            @Composable
 fun CategoriesScreen(
     onSelect: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    val cats = listOf(
-        Triple(
-            "ЛЁГКИЕ ВОПРОСЫ",
-            "Начальный уровень",
-            Color(0xFF2E9D5B)
-        ),
-        Triple(
-            "СРЕДНИЕ ВОПРОСЫ",
-            "Средний уровень",
-            Color(0xFFD6A82E)
-        ),
-        Triple(
-            "СЛОЖНЫЕ ВОПРОСЫ",
-            "Продвинутый уровень",
-            Color(0xFFD64B45)
-        )
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 18.dp,
-                vertical = 12.dp
-            )
-    ) {
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-
-            IconButton(
-                onClick = onBack
-            ) {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Назад",
-                    tint = gold
-                )
-            }
-
-            Column(
-                modifier = Modifier.padding(start = 4.dp)
-            ) {
-
-                Text(
-                    "ВЫБЕРИТЕ УРОВЕНЬ",
-                    color = cream,
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Text(
-                    "Проверьте свои знания сиры",
-                    color = gold,
-                    fontSize = 13.sp
-                )
-            }
-        }
-
-        Spacer(
-            Modifier.height(22.dp)
-        )
-
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            items(cats) { (name, subtitle, accent) ->
-
-                Card(
-                    onClick = {
-                        onSelect(name)
-                    },
-
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(112.dp),
-
-                    shape = RoundedCornerShape(24.dp),
-
-                    colors = CardDefaults.cardColors(
-                        containerColor = panel
-                    ),
-
-                    border = androidx.compose.foundation.BorderStroke(
-                        1.dp,
-                        accent.copy(alpha = 0.8f)
-                    )
-                ) {
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 18.dp),
-
-                        verticalAlignment =
-                            Alignment.CenterVertically
-                    ) {
-
-                        Box(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .clip(
-                                    RoundedCornerShape(20.dp)
-                                )
-                                .background(
-                                    accent.copy(alpha = 0.16f)
-                                ),
-
-@Composable
-fun CategoriesScreen(
-    onSelect: (String) -> Unit,
-    onBack: () -> Unit
-) {
-    data class Level(
-        val title: String,
-        val subtitle: String,
-        val accent: Color,
-        val icon: ImageVector
-    )
-
-    val levels = listOf(
-        Level(
-            title = "ЛЁГКИЕ ВОПРОСЫ",
-            subtitle = "Начальный уровень",
-            accent = Color(0xFF35C978),
-            icon = Icons.Default.CheckCircle
-        ),
-        Level(
-            title = "СРЕДНИЕ ВОПРОСЫ",
-            subtitle = "Средний уровень",
-            accent = Color(0xFFFFC83D),
-            icon = Icons.Default.EmojiEvents
-        ),
-        Level(
-            title = "СЛОЖНЫЕ ВОПРОСЫ",
-            subtitle = "Продвинутый уровень",
-            accent = Color(0xFFFF5555),
-            icon = Icons.Default.Whatshot
-        )
-    )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -476,7 +332,6 @@ fun CategoriesScreen(
             .padding(horizontal = 18.dp, vertical = 14.dp)
     ) {
 
-        // Верхняя панель
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -524,104 +379,215 @@ fun CategoriesScreen(
             modifier = Modifier.height(28.dp)
         )
 
-        // Три красивые категории
-        levels.forEach { level ->
-
-            Card(
-                onClick = {
-                    onSelect(level.title)
-                },
+        Card(
+            onClick = { onSelect("ЛЁГКИЕ ВОПРОСЫ") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            shape = RoundedCornerShape(28.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF0A3028)
+            ),
+            border = BorderStroke(
+                2.dp,
+                Color(0xFF35C978)
+            ),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(155.dp),
-                shape = RoundedCornerShape(28.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF0A3028)
-                ),
-                border = BorderStroke(
-                    width = 1.5.dp,
-                    color = level.accent.copy(alpha = 0.85f)
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp
-                )
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .size(76.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFF35C978).copy(alpha = 0.18f)),
+                    contentAlignment = Alignment.Center
                 ) {
-
-                    // Большая цветная иконка
-                    Box(
-                        modifier = Modifier
-                            .size(78.dp)
-                            .clip(RoundedCornerShape(24.dp))
-                            .background(
-                                Brush.linearGradient(
-                                    listOf(
-                                        level.accent.copy(alpha = 0.28f),
-                                        level.accent.copy(alpha = 0.10f)
-                                    )
-                                )
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-
-                        Icon(
-                            imageVector = level.icon,
-                            contentDescription = null,
-                            tint = level.accent,
-                            modifier = Modifier.size(46.dp)
-                        )
-                    }
-
-                    Spacer(
-                        modifier = Modifier.width(18.dp)
-                    )
-
-                    // Текст
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-
-                        Text(
-                            text = level.title,
-                            color = cream,
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Spacer(
-                            modifier = Modifier.height(7.dp)
-                        )
-
-                        Text(
-                            text = level.subtitle,
-                            color = level.accent,
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-
-                    // Стрелка
                     Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "Выбрать",
-                        tint = level.accent,
-                        modifier = Modifier.size(36.dp)
+                        Icons.Default.CheckCircle,
+                        contentDescription = null,
+                        tint = Color(0xFF35C978),
+                        modifier = Modifier.size(45.dp)
                     )
                 }
-            }
 
-            Spacer(
-                modifier = Modifier.height(18.dp)
-            )
+                Spacer(Modifier.width(18.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        "ЛЁГКИЕ ВОПРОСЫ",
+                        color = cream,
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(Modifier.height(7.dp))
+
+                    Text(
+                        "Начальный уровень",
+                        color = Color(0xFF35C978),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Icon(
+                    Icons.Default.ChevronRight,
+                    contentDescription = null,
+                    tint = Color(0xFF35C978),
+                    modifier = Modifier.size(38.dp)
+                )
+            }
+        }
+
+        Spacer(Modifier.height(18.dp))
+
+        Card(
+            onClick = { onSelect("СРЕДНИЕ ВОПРОСЫ") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            shape = RoundedCornerShape(28.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF0A3028)
+            ),
+            border = BorderStroke(
+                2.dp,
+                Color(0xFFFFC83D)
+            ),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .size(76.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFFFFC83D).copy(alpha = 0.18f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        Icons.Default.EmojiEvents,
+                        contentDescription = null,
+                        tint = Color(0xFFFFC83D),
+                        modifier = Modifier.size(45.dp)
+                    )
+                }
+
+                Spacer(Modifier.width(18.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        "СРЕДНИЕ ВОПРОСЫ",
+                        color = cream,
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(Modifier.height(7.dp))
+
+                    Text(
+                        "Средний уровень",
+                        color = Color(0xFFFFC83D),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Icon(
+                    Icons.Default.ChevronRight,
+                    contentDescription = null,
+                    tint = Color(0xFFFFC83D),
+                    modifier = Modifier.size(38.dp)
+                )
+            }
+        }
+
+        Spacer(Modifier.height(18.dp))
+
+        Card(
+            onClick = { onSelect("СЛОЖНЫЕ ВОПРОСЫ") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            shape = RoundedCornerShape(28.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF0A3028)
+            ),
+            border = BorderStroke(
+                2.dp,
+                Color(0xFFFF5555)
+            ),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .size(76.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFFFF5555).copy(alpha = 0.18f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        Icons.Default.Whatshot,
+                        contentDescription = null,
+                        tint = Color(0xFFFF5555),
+                        modifier = Modifier.size(45.dp)
+                    )
+                }
+
+                Spacer(Modifier.width(18.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        "СЛОЖНЫЕ ВОПРОСЫ",
+                        color = cream,
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(Modifier.height(7.dp))
+
+                    Text(
+                        "Продвинутый уровень",
+                        color = Color(0xFFFF5555),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Icon(
+                    Icons.Default.ChevronRight,
+                    contentDescription = null,
+                    tint = Color(0xFFFF5555),
+                    modifier = Modifier.size(38.dp)
+                )
+            }
         }
     }
-}
+}    
 @Composable
 fun QuizScreen(
     list: List<QuizQuestion>, index: Int, score: Int, selected: Int, seconds: Int,

@@ -1,5 +1,11 @@
 package com.siraquiz.app
-
+data class QuizQuestion(
+    val category: String,
+    val question: String,
+    val options: List<String>,
+    val correct: Int,
+    val explanation: String
+)
 // Банк из 1000 вопросов по жизнеописанию Пророка Мухаммада ﷺ.
 // Формулировки составлены заново; факты сверены по нескольким источникам.
 // Источники для проверки: Rasulullah.org, Seerah Library, Seerah Encyclopedia,
